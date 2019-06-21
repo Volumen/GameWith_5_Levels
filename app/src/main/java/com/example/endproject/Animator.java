@@ -3,6 +3,8 @@ package com.example.endproject;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -11,13 +13,19 @@ import android.graphics.Paint;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.example.endproject.databases.DatabaseHelper;
 
 import static android.content.ContentValues.TAG;
 
 public class Animator extends View {
+    Runnable runnable;
+    //Chronometer chronometer;
+    Thread CounterThread;
+    private Handler mHandler;
+    private int counter=0;
     Toast t1;
     int t[] ;
     Sound s1;
@@ -28,28 +36,89 @@ public class Animator extends View {
     Bitmap banana ,bananaResizedOne,bananaResizedTwo;
     int width=40;
     float x=screenWidth/2, y=screenHeight-200;
-    Boolean bitmapOneExist = true, bitmapTwoExist = true, pewsoundOne = true, pewsoundTwo = true;
+    Boolean bitmapOneExist = true, bitmapTwoExist = true, pewsoundOne = true, pewsoundTwo = true, endOfGame=false, win=false;
     int i=0;
     int holeX=900, holeY=1800, holeR=40;
     int collectedBananas = 0;
     boolean showMessage = false;
     int bananaOneX = 100, bananaOneY = 200, bananaTwoX = 260, bananaTwoY = 1120, bananasWidth = 50, bananasHeight = 50;
-
-    public Animator(Context context) {
+    String a ;
+    DatabaseHelper dbase;
+    SharedPreferences sharedPreferences;
+   // String nickname = "";
+    public Animator(final Context context) {
         super(context);
 
+//        chronometer = findViewById(R.id.Chronometer);
+//        chronometer.start();
+//        chronometer.setFormat("Time Runing: %s");
+//        a=chronometer.getFormat();
         banana = BitmapFactory.decodeResource(getResources(), R.drawable.banana);
         bananaResizedOne = Bitmap.createScaledBitmap(banana, bananasWidth, bananasHeight, true);
         bananaResizedTwo = Bitmap.createScaledBitmap(banana, bananasWidth, bananasHeight, true);
+
+        dbase = new DatabaseHelper(context);
+
+//        sharedPreferences = context.getSharedPreferences("A", Context.MODE_PRIVATE);
+//        nickname = sharedPreferences.getString("Nickname","");
 
         p = new Paint();
         s1 = new Sound(context.getApplicationContext());
         t= new int[50];
 
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+
+                while (endOfGame==false)
+                {
+                    counter++;
+                    try {
+                        Thread.sleep(1000);
+
+                    }catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+         CounterThread = new Thread(runnable);
+        CounterThread.start();
+//        new Thread(new Runnable() {
+//            public void run() {
+//
+//                try {
+//
+//                    int przesylanaliczba = 0;
+//
+//                    while (endOfGame==false){
+//                        counter++;
+//                        Thread.sleep(1000);
+//                    }
+//
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//        }).start();start
+//        if(endOfGame==false)
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                counter++;
+//            }
+//        }, 1000);
+
+
+
+
 
     }
     public void onDraw(Canvas canvas)
     {
+
         drawHole(canvas);
         p.setColor(Color.BLACK);
         canvas.drawCircle(x,y,r,p);
@@ -71,6 +140,7 @@ public class Animator extends View {
         DrawObstacle(180,100,180,280,canvas);//11 vertical
 
         p.setTextSize(50);
+        canvas.drawText("Time:"+counter,50,50,p);
         canvas.drawText("Collected bananas: "+collectedBananas,500,70,p);
         DrawInfo(canvas);
 
@@ -176,14 +246,6 @@ public class Animator extends View {
             p.setTextSize(60);
             p.setColor(Color.WHITE);
             canvas.drawText("First you need to collect bananas!", 100, 600, p);
-
-//        new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//
-//                        }
-//                    },   5000);
-//        }
         }
         showMessage = false;
     }
@@ -196,17 +258,59 @@ public class Animator extends View {
         {
             s1.playHitSound();
             l1.StopSensors();
+            endOfGame = true;
             new AlertDialog.Builder(l1)
                     .setTitle("Przegrałeś!")
-                    .setMessage("Chcesz zagrać jeszcze raz?")
+                    .setMessage("eh?")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which)
                         {
-                            reset();
-                            l1.StartSensors();
+                            l1.finish();
+                            l1.Start();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            l1.finish();
                         }
                     })
                     .show();
+
+        }
+    }
+    public void CheckHole(final levelOne l1)
+    {
+        t1.makeText(l1, "Najpierw zbierz wszystkie banany!",Toast.LENGTH_SHORT);
+        if (x <= holeX + holeR && x > holeX - holeR && y >= holeY - holeR && y <= holeY + holeR) {
+            if(collectedBananas == 2)
+            {
+                l1.StopSensors();
+                l1.addTime(String.valueOf(counter));
+                endOfGame = true;
+                //win = true;
+                new AlertDialog.Builder(l1)
+                        .setTitle("Wygrałeś!")
+                        .setMessage("Supcio?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                l1.finish();
+                            }
+                        })
+                        .show();
+            }
+            else if(collectedBananas<2)
+            {
+
+                showMessage=true;
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//
+//                        }
+//                    },   1000);
+
+            }
         }
     }
     public boolean CheckH( int t[], int l)
@@ -230,48 +334,10 @@ public class Animator extends View {
         p.setColor(Color.GRAY);
         canvas.drawCircle(holeX,holeY,holeR-5,p);
     }
-    public void CheckHole(final levelOne l1)
-    {
-        t1.makeText(l1, "Najpierw zbierz wszystkie banany!",Toast.LENGTH_SHORT);
-            if (x <= holeX + holeR && x > holeX - holeR && y >= holeY - holeR && y <= holeY + holeR) {
-                if(collectedBananas == 2)
-                {
-                l1.StopSensors();
-                new AlertDialog.Builder(l1)
-                        .setTitle("Wygrałeś!")
-                        .setMessage("Chcesz zagrać jeszcze raz?")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                reset();
-                                l1.StartSensors();
-                            }
-                        })
-                        .show();
-                }
-                else if(collectedBananas<2)
-                {
 
-                    showMessage=true;
-//                    new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//
-//                        }
-//                    },   1000);
-
-                }
-            }
-    }
-    public void reset()
+    public void reset(final levelOne l1)
     {
-        collectedBananas=0;
-        x=screenWidth/2;
-        y=screenHeight-150;
-        invalidate();
-        bitmapOneExist = true;
-        bitmapTwoExist = true;
-        pewsoundOne = true;
-        pewsoundTwo = true;
+
     }
     private void toastMessage(String message)
     {

@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.endproject">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,6 +19,15 @@
         </activity>
         <activity   android:name=".levelOne"
                     android:screenOrientation="portrait">
+        </activity>
+        <activity   android:name=".NewPlayer"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity   android:name=".levelTwo"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".levelOneLeaderboard"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

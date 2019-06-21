@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">EndProject</string>
+    <string name="start">Start</string>
+    <string name="new_player">New Player</string>
+    <string name="lederboard">Lederboard</string>
+    <string name="textview">TextView</string>
+    <string name="level_1">Level 1</string>
+    <string name="save">Save</string>
+    <string name="backButton">Button</string>
 </resources>
