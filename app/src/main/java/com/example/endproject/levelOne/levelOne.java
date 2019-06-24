@@ -1,4 +1,4 @@
-package com.example.endproject;
+package com.example.endproject.levelOne;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,11 +10,10 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.example.endproject.databases.DatabaseHelper;
+import com.example.endproject.DatabaseHelper;
 
 public class levelOne extends Activity implements SensorEventListener {
     private static final String TAG = "Nickname: ";
@@ -46,15 +45,6 @@ public class levelOne extends Activity implements SensorEventListener {
         nickname = sharedPreferences.getString("Nickname","");
 
        dbase = new DatabaseHelper(this);
-      // dbnicknames = new DatabaseNicknames(this);
-//        boolean insertData = dbase.addData("halo", "20");
-//        if (insertData == true) {
-//            toastMessage("Data Successfully Inserted!");
-//        } else {
-//            toastMessage("Something went wrong");
-//        }
-
-    //nickname = String.valueOf();
 
     }
     public void addTime(String time)
@@ -65,11 +55,7 @@ public class levelOne extends Activity implements SensorEventListener {
     public void onDestroy()
     {
         super.onDestroy();
-        //nickname = sharedPreferences.getString("Nickname","");
-        //Log.d(TAG,"Nickanamefrom: "+ nickname);
-    }
-    private void toastMessage(String message){
-        Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
+
     }
     public void Start()
     {

@@ -1,4 +1,4 @@
-package com.example.endproject;
+package com.example.endproject.levelOne;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,14 +6,14 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
         import android.os.Bundle;
         import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
         import android.widget.ListView;
 
-import com.example.endproject.databases.DatabaseHelper;
+import com.example.endproject.DatabaseHelper;
+import com.example.endproject.R;
 
 import java.util.ArrayList;
 
@@ -34,13 +34,9 @@ public class levelOneLeaderboard extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lederboard_activity);
 
-
-
         mListView = findViewById(R.id.listView);
         mDatabaseHelper = new DatabaseHelper(this);
 
-
-        //nickname = sharedPreferences.getString("Nickname","");
 
         button = findViewById(R.id.backButton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -53,34 +49,24 @@ public class levelOneLeaderboard extends Activity {
         populateListView();
         sharedPreferences = this.getSharedPreferences("A", Context.MODE_PRIVATE);
         nickname = sharedPreferences.getString("Nickname","");
-        Log.d(TAG,"LederNickaname: "+ nickname);
+        //Log.d(TAG,"LederNickaname: "+ nickname);
     }
     @Override
     public void onStop()
     {
         super.onStop();
-        //sharedPreferences = this.getSharedPreferences("A", Context.MODE_PRIVATE);
-        //nickname = sharedPreferences.getString("Nickname","");
-       // Log.d(TAG,"Nickanamefrom: "+ nickname);
     }
     private void populateListView() {
-        //get the data and append to a list
+
         Cursor data = mDatabaseHelper.getData();
-        //Cursor times = mDatabaseHelper.getTime();
         ArrayList<String> listData = new ArrayList<>();
-       // if(mDatabaseHelper.COL2<=)
-//
-//            listData.add(mDatabaseHelper.COL2);
-//        while(times.moveToNext()){
-//            //then add it to the ArrayList
-//            listData.add(times.getString(1));
-//        }
-        listData.add(mDatabaseHelper.COL1+" | "+ mDatabaseHelper.COL2);
+
+        listData.add(mDatabaseHelper.COL1+" | "+ mDatabaseHelper.COL2+"sec");
         while(data.moveToNext()){
-            //then add it to the ArrayList
+            //add it to the ArrayList
             listData.add(data.getString(0)+"   |   "+data.getString(1));
         }
-//        //create the list adapter and set the adapter
+        //create the list adapter and set the adapter
         ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
         mListView.setAdapter(adapter);
     }

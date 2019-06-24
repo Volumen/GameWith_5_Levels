@@ -17,16 +17,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity   android:name=".levelOne"
+        <activity   android:name=".levelOne.levelOne"
                     android:screenOrientation="portrait">
         </activity>
         <activity   android:name=".NewPlayer"
             android:screenOrientation="portrait">
         </activity>
-        <activity   android:name=".levelTwo"
+        <activity   android:name=".levelTwo.levelTwo"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".levelOneLeaderboard"
+        <activity android:name=".levelOne.levelOneLeaderboard"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".levelTwo.levelTwoLeaderboard"
             android:screenOrientation="portrait">
         </activity>
     </application>

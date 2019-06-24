@@ -1,30 +1,28 @@
-package com.example.endproject;
+package com.example.endproject.levelOne;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 
-import com.example.endproject.databases.DatabaseHelper;
+import com.example.endproject.DatabaseHelper;
+import com.example.endproject.R;
+import com.example.endproject.Sound;
+import com.example.endproject.levelOne.levelOne;
 
 import static android.content.ContentValues.TAG;
 
 public class Animator extends View {
     Runnable runnable;
-    //Chronometer chronometer;
     Thread CounterThread;
-    private Handler mHandler;
     private int counter=0;
     Toast t1;
     int t[] ;
@@ -42,25 +40,19 @@ public class Animator extends View {
     int collectedBananas = 0;
     boolean showMessage = false;
     int bananaOneX = 100, bananaOneY = 200, bananaTwoX = 260, bananaTwoY = 1120, bananasWidth = 50, bananasHeight = 50;
-    String a ;
     DatabaseHelper dbase;
-    SharedPreferences sharedPreferences;
-   // String nickname = "";
+
     public Animator(final Context context) {
         super(context);
 
-//        chronometer = findViewById(R.id.Chronometer);
-//        chronometer.start();
-//        chronometer.setFormat("Time Runing: %s");
-//        a=chronometer.getFormat();
+
         banana = BitmapFactory.decodeResource(getResources(), R.drawable.banana);
         bananaResizedOne = Bitmap.createScaledBitmap(banana, bananasWidth, bananasHeight, true);
         bananaResizedTwo = Bitmap.createScaledBitmap(banana, bananasWidth, bananasHeight, true);
 
         dbase = new DatabaseHelper(context);
 
-//        sharedPreferences = context.getSharedPreferences("A", Context.MODE_PRIVATE);
-//        nickname = sharedPreferences.getString("Nickname","");
+
 
         p = new Paint();
         s1 = new Sound(context.getApplicationContext());
@@ -85,35 +77,6 @@ public class Animator extends View {
         };
          CounterThread = new Thread(runnable);
         CounterThread.start();
-//        new Thread(new Runnable() {
-//            public void run() {
-//
-//                try {
-//
-//                    int przesylanaliczba = 0;
-//
-//                    while (endOfGame==false){
-//                        counter++;
-//                        Thread.sleep(1000);
-//                    }
-//
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//        }).start();start
-//        if(endOfGame==false)
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                counter++;
-//            }
-//        }, 1000);
-
-
-
-
 
     }
     public void onDraw(Canvas canvas)
@@ -301,15 +264,7 @@ public class Animator extends View {
             }
             else if(collectedBananas<2)
             {
-
                 showMessage=true;
-//                    new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//
-//                        }
-//                    },   1000);
-
             }
         }
     }
@@ -333,14 +288,5 @@ public class Animator extends View {
         canvas.drawCircle(holeX,holeY,holeR,p);
         p.setColor(Color.GRAY);
         canvas.drawCircle(holeX,holeY,holeR-5,p);
-    }
-
-    public void reset(final levelOne l1)
-    {
-
-    }
-    private void toastMessage(String message)
-    {
-       // Toast.makeText(l1,message,Toast.LENGTH_SHORT).show();
     }
 }

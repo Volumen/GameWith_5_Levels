@@ -4,39 +4,38 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.endproject.databases.DatabaseHelper;
+import com.example.endproject.levelOne.levelOne;
+import com.example.endproject.levelOne.levelOneLeaderboard;
+import com.example.endproject.levelTwo.levelTwo;
+import com.example.endproject.levelTwo.levelTwoLeaderboard;
 
 public class MainActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "Nickname: ";
-    Bundle bundle;
     TextView t1;
-    String nickname = "",nickname2;
-    Intent lOneintent ,newPlayerIntent, lederboardIntent;
-    Button start, newPlayer, lederboardButton;
+    String nickname = "";
+    Intent lOneintent,lTwointent ,newPlayerIntent, lederboardIntent, lederboardIntent2;
+    Button l1start, l2start, newPlayer, lederboardButton, lederboardButton2;
     SharedPreferences sharedPreferences;
-    String myPref = "";
-    DatabaseHelper dbase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         t1 = findViewById(R.id.textView);
-        //t1.setText("saa");
         lOneintent = new Intent(MainActivity.this, levelOne.class);
-        start = findViewById(R.id.button);
-        start.setOnClickListener(this);
+        l1start = findViewById(R.id.l1button);
+        l1start.setOnClickListener(this);
+
+        lTwointent = new Intent(MainActivity.this, levelTwo.class);
+        l2start = findViewById(R.id.l2button);
+        l2start.setOnClickListener(this);
 
         newPlayerIntent = new Intent(MainActivity.this, NewPlayer.class);
         newPlayer = findViewById(R.id.newPlayerButton);
@@ -47,8 +46,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         lederboardButton = findViewById(R.id.lederboardB);
         lederboardButton.setOnClickListener(this);
 
-        //dbase = new DatabaseHelper(this);
-        //String name = dbase.getName();
+        lederboardIntent2 = new Intent(MainActivity.this, levelTwoLeaderboard.class);
+        lederboardButton2 = findViewById(R.id.lederboardB2);
+        lederboardButton2.setOnClickListener(this);
+
         sharedPreferences = this.getSharedPreferences("A", Context.MODE_PRIVATE);
     }
     @Override
@@ -56,15 +57,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
     {
         super.onResume();
 
-
         nickname = sharedPreferences.getString("Nickname","");
-        Log.d(TAG, "Mainnickname: "+ nickname+"\n");
-        nickname2 = String.valueOf(t1.getText());
-        //nickname2 = nickname;
+        //Log.d(TAG, "Mainnickname: "+ nickname+"\n");
         if(!TextUtils.isEmpty(nickname)) {
             t1.setText("Hello " + nickname + " !\nChoose lvl to play :)");
         }
-        //Log.d(TAG,"MainNickname: "+nickname+"\nNickname2: "+ nickname2);
     }
     @Override
     public void onDestroy()
@@ -75,17 +72,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         editor.apply();
         t1.setText("");
     }
-//    @Override
-//    public void onDestroy()
-//    {
-//        super.onDestroy();
-//
-//    }
-
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.button)
+        if(v.getId()==R.id.l1button)
         {
             if(!TextUtils.isEmpty(nickname)) {
                 startActivity(lOneintent);
@@ -102,6 +92,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
         else if(v.getId()==R.id.lederboardB)
         {
             startActivity(lederboardIntent);
+        }
+        else if(v.getId()==R.id.l2button)
+        {
+            if(!TextUtils.isEmpty(nickname)) {
+                startActivity(lTwointent);
+            }
+            else
+            {
+                Toast.makeText(this,"First you need to write your nickname",Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if(v.getId()==R.id.lederboardB2)
+        {
+            startActivity(lederboardIntent2);
         }
     }
 }
