@@ -3,6 +3,8 @@ package com.example.endproject.levelTwo;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.endproject.R;
+import com.example.endproject.Sound;
 import com.example.endproject.levelOne.levelOne;
 
 import java.util.Random;
@@ -33,9 +37,12 @@ public class AnimatorTwo extends View {
     boolean moving=true;
     int pkt=0,pktHelp;
     int speed = 50;
+    Sound s1;
+    Bitmap monkey;
     public AnimatorTwo(Context context) {
         super(context);
         p = new Paint();
+        monkey = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.monkey),r*2,r*2,true);
         xright = new int[10];
         y = new int[10];
         for (int i = 0; i < 10; i++) {
@@ -47,6 +54,8 @@ public class AnimatorTwo extends View {
             Log.d("TAH","Y["+i+"]: "+y[i]);
         }
         movingObstacles();
+
+        s1 = new Sound(context.getApplicationContext());
     }
     @Override
     public void onDraw(Canvas canvas)
@@ -55,6 +64,7 @@ public class AnimatorTwo extends View {
         p.setColor(Color.BLACK);
         p.setStrokeWidth(lineWidth);
         drawPoints(canvas);
+
         if(pkt>10 && pkt<=20)
         { speed = 40; }
         else if(pkt>20&&pkt<=30)
@@ -63,6 +73,7 @@ public class AnimatorTwo extends View {
         for(int i=0;i<k;i++) {
 
             drawObstacles(canvas, y[i], xright[i]);
+
 
             if(y[i]==2000)
             {
@@ -73,6 +84,7 @@ public class AnimatorTwo extends View {
             }
         }
         canvas.drawCircle(xball,yball,r,p);
+        canvas.drawBitmap(monkey,xball-r,yball-r,p);
     }
     public void drawPoints(Canvas canvas)
     {
@@ -105,6 +117,7 @@ public class AnimatorTwo extends View {
                     movingObstacle.interrupt();
                     l2.StopSensors();
                     l2.addPKT(String.valueOf(pkt));
+                    s1.playHitSound();
                     new AlertDialog.Builder(l2)
                             .setTitle("GameOver!")
                             .setMessage("Do you want play again?")
@@ -112,6 +125,12 @@ public class AnimatorTwo extends View {
                                 public void onClick(DialogInterface dialog, int which) {
                                     l2.recreate();
                                 }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                    l2.finish();
+                                        }
                             })
                             .show();
                 }
@@ -125,8 +144,17 @@ public class AnimatorTwo extends View {
     {
 
         if(y2<screenHeight+100) {
+
+            p.setColor(Color.BLACK);
             canvas.drawLine(0, y2, xright2, y2, p);//left obstacle
             canvas.drawLine(xright2 + spaceBeetwenObstacklesX, y2, screenWidth, y2, p);//right obstacle
+            p.setColor(Color.parseColor("#993300"));
+            p.setStrokeWidth(lineWidth-15);
+            canvas.drawLine(0+5, y2, xright2-5, y2, p);//left obstacle
+            canvas.drawLine(xright2 + spaceBeetwenObstacklesX+5, y2, screenWidth-5, y2, p);//right obstacle
+            p.setStrokeWidth(lineWidth);
+
+           // p.setColor(Color.BLACK);
         }
     }
     public void movingObstacles()

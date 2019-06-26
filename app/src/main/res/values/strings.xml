@@ -8,4 +8,8 @@
     <string name="save">Save</string>
     <string name="backButton">Button</string>
     <string name="level_2">LEVEL 2</string>
+    <string name="back">Back</string>
+    <string name="write_your_nickname">Write your nickname</string>
+    <string name="games_by_pp">Games by PP</string>
+    <string name="todo">TODO</string>
 </resources>

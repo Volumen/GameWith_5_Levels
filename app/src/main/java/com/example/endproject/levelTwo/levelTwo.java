@@ -3,17 +3,13 @@ package com.example.endproject.levelTwo;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.WindowManager;
-
-import com.example.endproject.DatabaseHelper;
-import com.example.endproject.levelOne.Animator;
 
 public class levelTwo extends Activity implements SensorEventListener {
     AnimatorTwo a1;
@@ -34,6 +30,7 @@ public class levelTwo extends Activity implements SensorEventListener {
         StartSensors();
 
         a1 = new AnimatorTwo(this);
+        a1.setBackgroundColor(Color.parseColor("#85B1E5EC"));
         setContentView(a1);
 
         databaseHelper = new DatabaseHelperTwo(this);

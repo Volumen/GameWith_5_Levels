@@ -1,13 +1,10 @@
-package com.example.endproject;
-
-
+package com.example.endproject.levelOne;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_NAME = "LEDERBOARD";
@@ -31,7 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean addData( String nickname, String time)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
+        ContentValues contentValues = new ContentValues(); //this is using to store a set of values
         contentValues.put(COL1, nickname);
         contentValues.put(COL2, time);
 
@@ -46,7 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getData(){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM LEDERBOARD GROUP BY TIME";
-        Cursor data = db.rawQuery(query, null);
+        Cursor data = db.rawQuery(query, null); //we can pass the query by this method
         return data;
     }
 }

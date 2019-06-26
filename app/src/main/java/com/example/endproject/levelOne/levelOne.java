@@ -11,9 +11,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.WindowManager;
-import android.widget.Toast;
-
-import com.example.endproject.DatabaseHelper;
 
 public class levelOne extends Activity implements SensorEventListener {
     private static final String TAG = "Nickname: ";
@@ -34,7 +31,7 @@ public class levelOne extends Activity implements SensorEventListener {
 
         a1 = new Animator(this);
         setContentView(a1);
-        a1.setBackgroundColor(Color.parseColor("#BA4A00"));
+        a1.setBackgroundColor(Color.parseColor("#66CC66"));
 
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);

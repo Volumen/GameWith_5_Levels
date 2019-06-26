@@ -13,56 +13,50 @@ import android.view.View;
 import android.widget.Toast;
 
 
-import com.example.endproject.DatabaseHelper;
 import com.example.endproject.R;
 import com.example.endproject.Sound;
-import com.example.endproject.levelOne.levelOne;
 
 import static android.content.ContentValues.TAG;
 
 public class Animator extends View {
-    Runnable runnable;
-    Thread CounterThread;
-    private int counter=0;
-    Toast t1;
-    int t[] ;
-    Sound s1;
-    float screenHeight = getResources().getDisplayMetrics().heightPixels;
-    float screenWidth = getResources().getDisplayMetrics().widthPixels;
-    Paint p;
-    int r=20;
-    Bitmap banana ,bananaResizedOne,bananaResizedTwo;
-    int width=40;
-    float x=screenWidth/2, y=screenHeight-200;
-    Boolean bitmapOneExist = true, bitmapTwoExist = true, pewsoundOne = true, pewsoundTwo = true, endOfGame=false, win=false;
-    int i=0;
-    int holeX=900, holeY=1800, holeR=40;
-    int collectedBananas = 0;
-    boolean showMessage = false;
-    int bananaOneX = 100, bananaOneY = 200, bananaTwoX = 260, bananaTwoY = 1120, bananasWidth = 50, bananasHeight = 50;
+    private Runnable runnable;
+    private Thread CounterThread;
+    private Toast t1;
+    private Sound s1;
+    private float screenHeight = getResources().getDisplayMetrics().heightPixels;
+    private float screenWidth = getResources().getDisplayMetrics().widthPixels;
+    private Paint p;
+    private Bitmap banana ,bananaResizedOne,bananaResizedTwo, monkey;
+    private float x=screenWidth/2, y=screenHeight-200;
+    private boolean bitmapOneExist = true, bitmapTwoExist = true, pewsoundOne = true,
+            pewsoundTwo = true, endOfGame=false, showMessage = false;
+    private int bananaOneX = 100, bananaOneY = 200,
+        bananaTwoX = 260, bananaTwoY = 1120,
+        bananasWidth = 50, bananasHeight = 50,
+        holeX = 900, holeY = 1800, holeR = 40,
+        i=0, collectedBananas = 0, t[], counter = 0, width = 40 ,r = 20;
     DatabaseHelper dbase;
 
     public Animator(final Context context) {
         super(context);
 
-
         banana = BitmapFactory.decodeResource(getResources(), R.drawable.banana);
+        monkey = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.monkey),r*2,r*2,true);
         bananaResizedOne = Bitmap.createScaledBitmap(banana, bananasWidth, bananasHeight, true);
         bananaResizedTwo = Bitmap.createScaledBitmap(banana, bananasWidth, bananasHeight, true);
 
         dbase = new DatabaseHelper(context);
 
-
-
         p = new Paint();
         s1 = new Sound(context.getApplicationContext());
         t= new int[50];
 
+        //TIMER
         runnable = new Runnable() {
             @Override
             public void run() {
 
-                while (endOfGame==false)
+                while (!endOfGame)
                 {
                     counter++;
                     try {
@@ -83,10 +77,7 @@ public class Animator extends View {
     {
 
         drawHole(canvas);
-        p.setColor(Color.BLACK);
-        canvas.drawCircle(x,y,r,p);
-        p.setColor(Color.parseColor("#34495E"));
-        canvas.drawCircle(x,y,r-3,p);
+        canvas.drawBitmap(monkey,x-r,y-r,p);
         DrawBananas(canvas);
         p.setColor(Color.BLACK);
         p.setStrokeWidth(width);
@@ -107,16 +98,14 @@ public class Animator extends View {
         canvas.drawText("Collected bananas: "+collectedBananas,500,70,p);
         DrawInfo(canvas);
 
-        i=0;
+        i=0; //because we need start from drawing first obstacle in next invalidate
     }
     public void GetXY(float x1,float y1)
     {
-        if(x1>0.5||x1<-0.5||y1>0.5||y1<-0.5) {
+        if(x1>0.5||x1<-0.5||y1>0.5||y1<-0.5) { //to stop ball
             x = x - x1;
             y = y + y1;
             Borders();
-            Log.d(TAG, "x: " + x + "y: " + y);
-            Log.d(TAG, "width: " + width );
         }
     }
     public void Borders()
@@ -152,15 +141,15 @@ public class Animator extends View {
     public void DrawBananas(Canvas canvas)
     {
         CheckBananas();
-        if(bitmapOneExist == true && bitmapTwoExist == true) {
+        if(bitmapOneExist && bitmapTwoExist) {
             canvas.drawBitmap(bananaResizedOne, bananaOneX, bananaOneY, p);
             canvas.drawBitmap(bananaResizedTwo, bananaTwoX, bananaTwoY, p);
             }
-        else if (bitmapOneExist == true)
+        else if (bitmapOneExist)
         {
             canvas.drawBitmap(bananaResizedOne, bananaOneX, bananaOneY, p);
         }
-        else if(bitmapTwoExist == true)
+        else if(bitmapTwoExist)
         {
             canvas.drawBitmap(bananaResizedTwo, bananaTwoX, bananaTwoY, p);
         }
@@ -173,7 +162,7 @@ public class Animator extends View {
         {
             bananaResizedOne = null;
             bitmapOneExist = false;
-            if(pewsoundOne==true)
+            if(pewsoundOne)
             {
                 s1.playCollectSound();
                 pewsoundOne=false;
@@ -184,7 +173,7 @@ public class Animator extends View {
         {
             bananaResizedTwo = null;
             bitmapTwoExist = false;
-            if(pewsoundTwo==true)
+            if(pewsoundTwo)
             {
                 s1.playCollectSound();
                 pewsoundTwo=false;
@@ -205,7 +194,7 @@ public class Animator extends View {
     }
     public void DrawInfo( Canvas canvas)
     {
-        if(showMessage==true) {
+        if(showMessage) {
             p.setTextSize(60);
             p.setColor(Color.WHITE);
             canvas.drawText("First you need to collect bananas!", 100, 600, p);
@@ -217,14 +206,14 @@ public class Animator extends View {
         Log.d(TAG, "x1: " + t[0] +"x3:" +t[4]+"y3:" +t[5]+" x4"+t[6]);
 
         //Checking all obstacles + 4 because(x1, y1, x2, y2)
-        if(CheckH(t,0)==true || CheckH(t,4)==true || CheckH(t,8)==true || CheckV(t,12)==true || CheckH(t,16)==true || CheckV(t,20)==true || CheckH(t,24)==true || CheckH(t,28)==true || CheckH(t,32)==true || CheckH(t,36)==true || CheckV(t,40)==true)
+        if(CheckH(t, 0) || CheckH(t, 4) || CheckH(t,8) || CheckV(t,12) || CheckH(t,16) || CheckV(t,20) || CheckH(t,24) || CheckH(t,28) || CheckH(t,32) || CheckH(t,36) || CheckV(t,40))
         {
             s1.playHitSound();
             l1.StopSensors();
             endOfGame = true;
             new AlertDialog.Builder(l1)
-                    .setTitle("Przegrałeś!")
-                    .setMessage("eh?")
+                    .setTitle("GameOver!")
+                    .setMessage("Do you want to play again?")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which)
                         {
@@ -249,12 +238,13 @@ public class Animator extends View {
             if(collectedBananas == 2)
             {
                 l1.StopSensors();
+                s1.playWinSound();
                 l1.addTime(String.valueOf(counter));
                 endOfGame = true;
                 //win = true;
                 new AlertDialog.Builder(l1)
-                        .setTitle("Wygrałeś!")
-                        .setMessage("Supcio?")
+                        .setTitle("You win!")
+                        .setMessage("If your tim is enaugh good, will be saved in laderboard :)")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 l1.finish();

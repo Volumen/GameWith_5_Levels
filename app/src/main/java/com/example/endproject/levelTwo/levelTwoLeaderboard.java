@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.example.endproject.DatabaseHelper;
 import com.example.endproject.R;
 
 import java.util.ArrayList;
@@ -62,7 +61,7 @@ public class levelTwoLeaderboard extends Activity {
         ArrayList<String> listData = new ArrayList<>();
 
         listData.add(mDatabaseHelper.COL1+" | "+ mDatabaseHelper.COL2);
-        while(data.moveToNext()){
+        while(data.moveToNext()&&data.getPosition()<10){
             //add it to the ArrayList
             listData.add(data.getString(0)+"   |   "+data.getString(1));
         }

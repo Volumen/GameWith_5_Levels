@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#85B1E5EC"
     tools:context=".MainActivity">
 
     <Button
@@ -104,7 +105,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Games by PP "
+        android:text="@string/games_by_pp"
         android:textColor="#000000"
         android:textSize="30sp"
         app:fontFamily="sans-serif-smallcaps"
@@ -114,5 +115,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="261dp"
+        android:layout_height="382dp"
+        android:layout_marginTop="410dp"
+        android:src="@drawable/monkey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/todo" />
 
 </android.support.constraint.ConstraintLayout>

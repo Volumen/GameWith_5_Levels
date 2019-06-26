@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -17,7 +18,6 @@ import com.example.endproject.levelTwo.levelTwo;
 import com.example.endproject.levelTwo.levelTwoLeaderboard;
 
 public class MainActivity extends Activity implements View.OnClickListener {
-    private static final String TAG = "Nickname: ";
     TextView t1;
     String nickname = "";
     Intent lOneintent,lTwointent ,newPlayerIntent, lederboardIntent, lederboardIntent2;
@@ -51,6 +51,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         lederboardButton2.setOnClickListener(this);
 
         sharedPreferences = this.getSharedPreferences("A", Context.MODE_PRIVATE);
+
     }
     @Override
     public void onResume()
