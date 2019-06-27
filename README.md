@@ -17,14 +17,8 @@ If we touch the obstacle the game ends. The top 10 results are saved to the lede
 
 Level One:  
 
-  ![giphy](https://media.giphy.com/media/U7b9vV0Q3rXTSHDFrL/giphy.gif)
-  
-  ![giphy](https://media.giphy.com/media/JNrsE2iwGbCLsd2Xiw/giphy.gif)
+  ![giphy](https://media.giphy.com/media/U7b9vV0Q3rXTSHDFrL/giphy.gif) ![giphy](https://media.giphy.com/media/JNrsE2iwGbCLsd2Xiw/giphy.gif)
   
 Level Two:
 
-  ![giphy](https://media.giphy.com/media/Su0TvVbqAkNiuXMDBF/giphy.gif)
-  
-  ![giphy](https://media.giphy.com/media/jSPtoAzDzjcHHn9aQy/giphy.gif)
-  
-  ![giphy](https://media.giphy.com/media/LqJBuEQROiN5dXSLAZ/giphy.gif)
+  ![giphy](https://media.giphy.com/media/Su0TvVbqAkNiuXMDBF/giphy.gif) ![giphy](https://media.giphy.com/media/jSPtoAzDzjcHHn9aQy/giphy.gif) ![giphy](https://media.giphy.com/media/LqJBuEQROiN5dXSLAZ/giphy.gif)
