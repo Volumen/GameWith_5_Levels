@@ -14,3 +14,17 @@ In this game, you can move the bitmap with the help of sensors only in the x-pla
 After switching on the game, obstacles are generated that move towards our bitmap and there are gaps between the obstacles. 
 Passing through each gaps gives us one point. Every ten obstacles, the speed of their movement increases. 
 If we touch the obstacle the game ends. The top 10 results are saved to the lederboard.
+
+Level One:  
+
+  ![giphy](https://media.giphy.com/media/U7b9vV0Q3rXTSHDFrL/giphy.gif)
+  
+  ![giphy](https://media.giphy.com/media/JNrsE2iwGbCLsd2Xiw/giphy.gif)
+  
+Level Two:
+
+  ![giphy](https://media.giphy.com/media/Su0TvVbqAkNiuXMDBF/giphy.gif)
+  
+  ![giphy](https://media.giphy.com/media/jSPtoAzDzjcHHn9aQy/giphy.gif)
+  
+  ![giphy](https://media.giphy.com/media/LqJBuEQROiN5dXSLAZ/giphy.gif)
